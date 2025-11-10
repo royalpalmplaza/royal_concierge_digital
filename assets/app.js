@@ -1,14 +1,33 @@
 // ==========================
+// Utilidades básicas
+// ==========================
+const $ = (sel) => document.querySelector(sel);
+const yearEl = $('#ano');
+if (yearEl) {
+  yearEl.textContent = new Date().getFullYear();
+}
+
+const getInputValue = (selector, { trim = true } = {}) => {
+  const el = $(selector);
+  if (!el) return '';
+  const value = 'value' in el ? el.value : '';
+  return trim ? value.trim() : value;
+};
+
+// ==========================
 // Configuração de WhatsApp
 // ==========================
 const DEFAULT_PHONE = '5511999999999';
-const $ = (sel)=>document.querySelector(sel);
 const phoneInput = $('#hotelPhone');
-phoneInput.value = localStorage.getItem('hotel_phone') || DEFAULT_PHONE;
-phoneInput.addEventListener('input', () => {
-  const digits = phoneInput.value.replace(/\D/g, '');
-  phoneInput.value = digits; localStorage.setItem('hotel_phone', digits);
-});
+
+if (phoneInput) {
+  phoneInput.value = localStorage.getItem('hotel_phone') || DEFAULT_PHONE;
+  phoneInput.addEventListener('input', () => {
+    const digits = phoneInput.value.replace(/\D/g, '');
+    phoneInput.value = digits;
+    localStorage.setItem('hotel_phone', digits);
+  });
+}
 
 // ==========================
 // Catálogo bilíngue + descrições
@@ -17,7 +36,7 @@ const itens = [
   // Padaria & Cafés
   {cat:'Padaria & Cafés / Bakery & Coffee', namePt:'Cesta de pães doces e salgados (250g)', nameEn:'Basket of sweet & savory rolls (250g)', descPt:'Variedade de pães da padaria.', descEn:'Assorted bakery breads.', price:34},
   {cat:'Padaria & Cafés / Bakery & Coffee', namePt:'Torradas c/ manteiga, geleia, mel e cream cheese (160g)', nameEn:'Toast with butter, jam, honey & cream cheese (160g)', descPt:'Pães torrados com acompanhamentos.', descEn:'Toasted bread with spreads.', price:30},
-  {cat:'Padaria & Cafés / Bakery & Coffee', namePt:'Fatia de bolo caseiro (230g)', nameEn:'Slice of home‑made cake (230g)', descPt:'Sabor do dia.', descEn:'Chef\'s daily flavor.', price:20},
+  {cat:'Padaria & Cafés / Bakery & Coffee', namePt:'Fatia de bolo caseiro (230g)', nameEn:'Slice of home‑made cake (230g)', descPt:'Sabor do dia.', descEn:"Chef's daily flavor.", price:20},
   {cat:'Padaria & Cafés / Bakery & Coffee', namePt:'Waffle c/ calda de chocolate ou xarope (100g)', nameEn:'Waffle with chocolate or maple syrup (100g)', descPt:'Waffle clássico com calda à escolha.', descEn:'Classic waffle with your choice of topping.', price:29},
   {cat:'Padaria & Cafés / Bakery & Coffee', namePt:'Iogurte natural (170g)', nameEn:'Plain yogurt (170g)', descPt:'Iogurte natural individual.', descEn:'Single‑serve plain yogurt.', price:13},
   {cat:'Padaria & Cafés / Bakery & Coffee', namePt:'Iogurte de frutas/mel (170g)', nameEn:'Fruit yogurt / honey (170g)', descPt:'Iogurte saborizado.', descEn:'Flavored yogurt.', price:16},
@@ -69,38 +88,37 @@ const itens = [
   {cat:'Pratos Quentes / Hot dishes', namePt:'Omelete de presunto, queijo e tomate (400g)', nameEn:'Ham, cheese & tomato omelet (400g)', descPt:'Servido com batatas fritas.', descEn:'Served with French fries.', price:66},
 
   // Acompanhamentos
-  {cat:'Acompanhamentos / Side orders', namePt:'Arroz branco (120g)', nameEn:'Plain white rice (120g)', descPt:'Guarnição individual.', descEn:'Single side portion.', price:24},
-  {cat:'Acompanhamentos / Side orders', namePt:'Legumes ao vapor (180g)', nameEn:'Steamed vegetables (180g)', descPt:'Legumes do dia.', descEn:'Vegetables of the day.', price:24},
-  {cat:'Acompanhamentos / Side orders', namePt:'Feijão carioca (180g)', nameEn:'Beans (180g)', descPt:'Feijão tradicional.', descEn:'Traditional beans.', price:24},
-  {cat:'Acompanhamentos / Side orders', namePt:'Batatas fritas (150g)', nameEn:'French fries (150g)', descPt:'Fritas crocantes.', descEn:'Crispy fries.', price:44},
+  {cat:'Acompanhamentos / Side orders', namePt:'Arroz branco (120g)', nameEn:'Plain white rice (120g)', descPt:'Guarnição individual.', descEn:'Single side portion.', price:15},
+  {cat:'Acompanhamentos / Side orders', namePt:'Legumes no vapor (160g)', nameEn:'Steamed vegetables (160g)', descPt:'Legumes frescos.', descEn:'Seasonal vegetables.', price:19},
+  {cat:'Acompanhamentos / Side orders', namePt:'Purê de batata (150g)', nameEn:'Mashed potatoes (150g)', descPt:'Purê cremoso.', descEn:'Creamy mash.', price:18},
+  {cat:'Acompanhamentos / Side orders', namePt:'Batatas fritas (150g)', nameEn:'French fries (150g)', descPt:'Crocantes.', descEn:'Crispy fries.', price:18},
 
   // Sobremesas
-  {cat:'Sobremesas / Desserts', namePt:'Frutas da estação laminadas (200g)', nameEn:'Sliced fresh fruit (200g)', descPt:'Abacaxi, manga, melancia, papaia.', descEn:'Pineapple, mango, watermelon, papaya.', price:44},
-  {cat:'Sobremesas / Desserts', namePt:'Quindim (70g)', nameEn:'Coconut & egg custard (70g)', descPt:'Doce brasileiro de coco.', descEn:'Brazilian coconut custard.', price:20},
-  {cat:'Sobremesas / Desserts', namePt:'Pudim de leite condensado (80g)', nameEn:'Condensed milk pudding (80g)', descPt:'Sobremesa clássica.', descEn:'Classic Brazilian pudding.', price:20},
-  {cat:'Sobremesas / Desserts', namePt:'Sobremesas do dia (120g)', nameEn:'Desserts of the day (120g)', descPt:'Consulte as opções.', descEn:'Ask for today\'s options.', price:29},
+  {cat:'Sobremesas / Desserts', namePt:'Cheesecake de frutas vermelhas (120g)', nameEn:'Red berries cheesecake (120g)', descPt:'Calda artesanal de frutas.', descEn:'Homemade berry coulis.', price:32},
+  {cat:'Sobremesas / Desserts', namePt:'Mousse de chocolate meio amargo (110g)', nameEn:'Dark chocolate mousse (110g)', descPt:'Chocolate 54%.', descEn:'54% cacao chocolate.', price:28},
+  {cat:'Sobremesas / Desserts', namePt:'Pudim de leite condensado (130g)', nameEn:'Brazilian flan (130g)', descPt:'Clássico com calda de caramelo.', descEn:'Classic with caramel sauce.', price:24},
 
-  // Menu Infantil (24h)
-  {cat:'Menu Infantil (24h) / Kids menu (24h)', namePt:'Escalope de filé mignon (120g) + 2 guarnições', nameEn:'Beef escalope (120g) + 2 sides', descPt:'Escolha 2: arroz branco, espaguete ao sugo, batatas fritas.', descEn:'Choose 2: white rice, spaghetti with tomato sauce, French fries.', price:59},
-  {cat:'Menu Infantil (24h) / Kids menu (24h)', namePt:'Escalope de frango (120g) + 2 guarnições', nameEn:'Chicken escalope (120g) + 2 sides', descPt:'Escolha 2: arroz branco, espaguete ao sugo, batatas fritas.', descEn:'Choose 2: white rice, spaghetti with tomato sauce, French fries.', price:59},
-  {cat:'Menu Infantil (24h) / Kids menu (24h)', namePt:'Espaguete ao sugo ou rosé (100g)', nameEn:'Spaghetti with tomato or rosé sauce (100g)', descPt:'Molho vermelho ou rosé.', descEn:'Red or rosé sauce.', price:51},
-  {cat:'Menu Infantil (24h) / Kids menu (24h)', namePt:'Espaguete à bolonhesa (120g)', nameEn:'Spaghetti Bolognese (120g)', descPt:'Molho de carne.', descEn:'Meat sauce.', price:63},
+  // Menu Infantil
+  {cat:'Menu Infantil (24h) / Kids menu (24h)', namePt:'Mini hambúrguer com queijo e batatas sorriso', nameEn:'Mini cheeseburger with smile fries', descPt:'Porção para crianças.', descEn:'Kid-friendly portion.', price:39},
+  {cat:'Menu Infantil (24h) / Kids menu (24h)', namePt:'Espaguete ao sugo com almôndegas', nameEn:'Spaghetti with tomato sauce & meatballs', descPt:'Molho de tomate caseiro.', descEn:'House tomato sauce.', price:36},
 
-  // Sugestão do Chef
-  {cat:'Sugestão do Chef / Chef\'s suggestion', namePt:'Menu do Chef', nameEn:'Chef\'s menu', descPt:'Opções de carne, ave ou peixe + 2 acompanhamentos ou massa. Disponível nos horários do restaurante.', descEn:'Choice of meat, poultry or fish + two sides or pasta. Available during restaurant opening hours.', price:146},
+  // Mini Bar
+  {cat:'Mini Bar / Mini bar', namePt:'Água Prata (300ml)', nameEn:'Water (300ml)', descPt:'Garrafa individual.', descEn:'Single bottle.', price:12},
+  {cat:'Mini Bar / Mini bar', namePt:'Refrigerantes (350ml)', nameEn:'Soft drinks (350ml)', descPt:'Lata 350ml.', descEn:'350ml can.', price:11},
+  {cat:'Mini Bar / Mini bar', namePt:'Heineken (330ml)', nameEn:'Heineken (330ml)', descPt:'Cerveja longneck.', descEn:'Longneck beer.', price:23},
+  {cat:'Mini Bar / Mini bar', namePt:'Amendoim', nameEn:'Peanuts', descPt:'Snack salgado.', descEn:'Savory snack.', price:8},
+  {cat:'Mini Bar / Mini bar', namePt:'Batata Chips', nameEn:'Potato chips', descPt:'Snack crocante.', descEn:'Crispy snack.', price:17},
+  {cat:'Mini Bar / Mini bar', namePt:'Castanha de Caju', nameEn:'Cashew nuts', descPt:'Snack crocante.', descEn:'Crispy snack.', price:17},
+  {cat:'Mini Bar / Mini bar', namePt:'Chocolate', nameEn:'Chocolate', descPt:'Barra/unidade.', descEn:'Bar/unit.', price:9},
 
-  // Bebidas diversas
-  {cat:'Bebidas Diversas / Other drinks', namePt:'Água Prata (com/sem gás) (300ml)', nameEn:'Still or sparkling water (300ml)', descPt:'Garrafa individual.', descEn:'Single bottle.', price:12},
-  {cat:'Bebidas Diversas / Other drinks', namePt:'Refrigerantes (350ml)', nameEn:'Soft drinks (350ml)', descPt:'Lata 350ml.', descEn:'350ml can.', price:11},
-  {cat:'Bebidas Diversas / Other drinks', namePt:'Suco de frutas (300ml)', nameEn:'Fresh juices (300ml)', descPt:'Suco de frutas variadas.', descEn:'Assorted fruit juices.', price:11},
-  {cat:'Bebidas Diversas / Other drinks', namePt:'Energético (250ml)', nameEn:'Energy drink (250ml)', descPt:'Lata 250ml.', descEn:'250ml can.', price:29},
-  {cat:'Bebidas Diversas / Other drinks', namePt:'Balde de gelo – pequeno (700g)', nameEn:'Ice bucket – small (700g)', descPt:'Gelo para bebidas.', descEn:'Ice for drinks.', price:35},
-  {cat:'Bebidas Diversas / Other drinks', namePt:'Balde de gelo – grande (2,2kg)', nameEn:'Ice bucket – large (2.2kg)', descPt:'Gelo para bebidas.', descEn:'Ice for drinks.', price:60},
+  // Bebidas Diversas
+  {cat:'Bebidas Diversas / Other drinks', namePt:'Chá gelado artesanal (350ml)', nameEn:'House iced tea (350ml)', descPt:'Chá preto com frutas cítricas.', descEn:'Black tea with citrus.', price:18},
+  {cat:'Bebidas Diversas / Other drinks', namePt:'Limonada suíça (350ml)', nameEn:'Brazilian limeade (350ml)', descPt:'Limonada cremosa.', descEn:'Creamy limeade.', price:16},
 
   // Cervejas
   {cat:'Cervejas / Beers', namePt:'Heineken longneck (330ml)', nameEn:'Heineken longneck (330ml)', descPt:'Cerveja lager.', descEn:'Lager beer.', price:23},
 
-  // Caipirinhas (400ml)
+  // Caipirinhas
   {cat:'Caipirinhas (400ml) / Caipirinhas (400ml)', namePt:'Caipirinha de Cachaça Seleta', nameEn:'Cachaça Seleta caipirinha', descPt:'Sabores: limão, abacaxi, frutos vermelhos (inclui ingredientes).', descEn:'Flavors: lemon, pineapple, red fruits (includes ingredients).', price:35},
   {cat:'Caipirinhas (400ml) / Caipirinhas (400ml)', namePt:'Caipirinha de Vodka Smirnoff', nameEn:'Smirnoff vodka caipirinha', descPt:'Sabores: limão, abacaxi, frutos vermelhos (inclui ingredientes).', descEn:'Flavors: lemon, pineapple, red fruits (includes ingredients).', price:35},
   {cat:'Caipirinhas (400ml) / Caipirinhas (400ml)', namePt:'Caipirinha de Saquê Azuma Kirin', nameEn:'Azuma Kirin sake caipirinha', descPt:'Sabores: limão, abacaxi, frutos vermelhos (inclui ingredientes).', descEn:'Flavors: lemon, pineapple, red fruits (includes ingredients).', price:40},
@@ -110,27 +128,27 @@ const itens = [
   {cat:'Destilados / Spirits', namePt:'Johnnie Walker Red Label – garrafa (750ml)', nameEn:'Johnnie Walker Red Label – bottle (750ml)', descPt:'Garrafa 750ml.', descEn:'750ml bottle.', price:490},
   {cat:'Destilados / Spirits', namePt:'Johnnie Walker Black Label – dose (50ml)', nameEn:'Johnnie Walker Black Label – shot (50ml)', descPt:'Dose individual.', descEn:'Single shot.', price:47},
   {cat:'Destilados / Spirits', namePt:'Johnnie Walker Black Label – garrafa (750ml)', nameEn:'Johnnie Walker Black Label – bottle (750ml)', descPt:'Garrafa 750ml.', descEn:'750ml bottle.', price:690},
-
-  // Mini bar
-  {cat:'Mini Bar / Mini bar', namePt:'Água Prata (300ml)', nameEn:'Water (300ml)', descPt:'Garrafa individual.', descEn:'Single bottle.', price:12},
-  {cat:'Mini Bar / Mini bar', namePt:'Refrigerantes (350ml)', nameEn:'Soft drinks (350ml)', descPt:'Lata 350ml.', descEn:'350ml can.', price:11},
-  {cat:'Mini Bar / Mini bar', namePt:'Heineken (330ml)', nameEn:'Heineken (330ml)', descPt:'Cerveja longneck.', descEn:'Longneck beer.', price:23},
-  {cat:'Mini Bar / Mini bar', namePt:'Amendoim', nameEn:'Peanuts', descPt:'Snack salgado.', descEn:'Savory snack.', price:8},
-  {cat:'Mini Bar / Mini bar', namePt:'Batata Chips', nameEn:'Potato chips', descPt:'Snack crocante.', descEn:'Crispy snack.', price:17},
-  {cat:'Mini Bar / Mini bar', namePt:'Castanha de Caju', nameEn:'Cashew nuts', descPt:'Snack crocante.', descEn:'Crispy snack.', price:17},
-  {cat:'Mini Bar / Mini bar', namePt:'Chocolate', nameEn:'Chocolate', descPt:'Barra/unidade.', descEn:'Bar/unit.', price:9},
 ];
 
 // ==========================
 // Renderização do menu (ordem premium 4–5*)
 // ==========================
-function currency(v){ return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'}); }
-function groupBy(arr,key){ return arr.reduce((a,c)=>((a[c[key]]=a[c[key]]||[]).push(c),a),{}); }
+function currency(v){
+  return v.toLocaleString('pt-BR',{style:'currency',currency:'BRL'});
+}
+
+function groupBy(arr,key){
+  return arr.reduce((acc,item)=>{
+    (acc[item[key]] = acc[item[key]] || []).push(item);
+    return acc;
+  },{});
+}
 
 function renderMenu(filter=''){
-  const menu = document.querySelector('#menu');
+  const menu = $('#menu');
+  if (!menu) return;
   menu.innerHTML='';
-  const filtered = filter ? itens.filter(i => (i.namePt+" "+i.nameEn+" "+i.cat).toLowerCase().includes(filter.toLowerCase())) : itens;
+  const filtered = filter ? itens.filter(i => `${i.namePt} ${i.nameEn} ${i.cat}`.toLowerCase().includes(filter.toLowerCase())) : itens;
   const grouped = groupBy(filtered,'cat');
   const order = [
     'Bebidas Diversas / Other drinks',
@@ -153,8 +171,12 @@ function renderMenu(filter=''){
 
   order.forEach(cat=>{
     if(!grouped[cat] || !grouped[cat].length) return;
-    const box=document.createElement('details'); box.className='box'; box.open=true;
-    const sum=document.createElement('summary'); sum.textContent=cat; box.appendChild(sum);
+    const box=document.createElement('details');
+    box.className='box';
+    box.open=true;
+    const sum=document.createElement('summary');
+    sum.textContent=cat;
+    box.appendChild(sum);
 
     grouped[cat].forEach(i=>{
       const row=document.createElement('div'); row.className='grid clickable';
@@ -186,21 +208,28 @@ function updateTotal(){
   const qty = window.__qty || new Map();
   let t=0;
   itens.forEach(i=>{ t += (qty.get(i.namePt)||0)*i.price; });
-  document.querySelector('#total').textContent=currency(t);
+  const totalEl = $('#total');
+  if (totalEl) {
+    totalEl.textContent=currency(t);
+  }
 }
 
-document.querySelector('#busca').addEventListener('input', e=>renderMenu(e.target.value));
+const searchInput = $('#busca');
+if (searchInput) {
+  searchInput.addEventListener('input', e=>renderMenu(e.target.value));
+}
 renderMenu();
 
 // ==========================
 // Mensagens (WhatsApp)
 // ==========================
-function buildMessage({ quarto, hora, nome, obs }){
+function buildMessage({ quarto, hora, nome, sobrenome, obs }){
   const linhas = [];
   linhas.push('Olá! / Hello!');
   linhas.push('Gostaria de fazer um pedido de serviço de quarto. / I would like to place a room service order.');
   if (quarto) linhas.push(`Quarto/Apto • Room: ${quarto}`);
-  if (nome) linhas.push(`Hóspede • Guest: ${nome}`);
+  const fullName = [nome, sobrenome].filter(Boolean).join(' ');
+  if (fullName) linhas.push(`Hóspede • Guest: ${fullName}`);
   if (hora) linhas.push(`Entrega • Delivery: ${hora}`);
   const qty = window.__qty || new Map();
   const sel = itens.filter(i => (qty.get(i.namePt)||0) > 0);
@@ -216,31 +245,41 @@ function buildMessage({ quarto, hora, nome, obs }){
 }
 
 function openWhatsApp(text){
-  const phone=(document.querySelector('#hotelPhone').value||DEFAULT_PHONE).replace(/\D/g,'');
+  const phoneInputValue = getInputValue('#hotelPhone', { trim: false }) || DEFAULT_PHONE;
+  const phone = phoneInputValue.replace(/\D/g,'');
   const url=`https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
-  window.open(url,'_blank');
-  const ok = document.querySelector('#okMsg'); if(ok) ok.style.display='block';
+  window.open(url,'_blank','noopener');
+  const ok = $('#okMsg'); if(ok) ok.style.display='block';
 }
 
-document.querySelector('#pedidoForm').addEventListener('submit', (e)=>{
-  e.preventDefault();
-  const quarto=document.querySelector('#quarto').value.trim();
-  const hora=document.querySelector('#hora').value;
-  const nome=document.querySelector('#nome').value.trim();
-  const obs=document.querySelector('#obs').value.trim();
-  const msg=buildMessage({quarto,hora,nome,obs});
-  openWhatsApp(msg);
-});
+const pedidoForm = $('#pedidoForm');
+if (pedidoForm) {
+  pedidoForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const quarto=getInputValue('#quarto');
+    const hora=getInputValue('#hora', { trim: false });
+    const nome=getInputValue('#nome');
+    const sobrenome=getInputValue('#sobrenome');
+    const obs=getInputValue('#obs');
+    const msg=buildMessage({quarto,hora,nome,sobrenome,obs});
+    openWhatsApp(msg);
+  });
+}
 
-document.querySelector('#btnLimpeza').addEventListener('click', ()=>{
-  const quarto=document.querySelector('#quarto').value.trim();
-  const nome=document.querySelector('#nome').value.trim();
-  const msg=[
-    'Olá! Poderiam, por favor, enviar a camareira ao meu quarto? / Hello! Could you please send housekeeping to my room?',
-    quarto?`Quarto/Apto • Room: ${quarto}`:'',
-    nome?`Hóspede • Guest: ${nome}`:'',
-    'Solicitação: troca de toalhas e reposição de amenities. / Request: towel change and amenities refill.',
-    'Obrigado! / Thank you!'
-  ].filter(Boolean).join('\n');
-  openWhatsApp(msg);
-});
+const btnLimpeza = $('#btnLimpeza');
+if (btnLimpeza) {
+  btnLimpeza.addEventListener('click', ()=>{
+    const quarto=getInputValue('#quarto');
+    const nome=getInputValue('#nome');
+    const sobrenome=getInputValue('#sobrenome');
+    const fullName=[nome,sobrenome].filter(Boolean).join(' ');
+    const msg=[
+      'Olá! Poderiam, por favor, enviar a camareira ao meu quarto? / Hello! Could you please send housekeeping to my room?',
+      quarto?`Quarto/Apto • Room: ${quarto}`:'',
+      fullName?`Hóspede • Guest: ${fullName}`:'',
+      'Solicitação: troca de toalhas e reposição de amenities. / Request: towel change and amenities refill.',
+      'Obrigado! / Thank you!'
+    ].filter(Boolean).join('\n');
+    openWhatsApp(msg);
+  });
+}
