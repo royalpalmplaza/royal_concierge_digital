@@ -61,7 +61,7 @@ body{
   width:220px;
   max-width:100%;
   border-radius:var(--radius-md);
-  background:rgba(255,255,255,.08);
+  background:#ffffff;
   border:1px solid rgba(255,255,255,.25);
   padding:22px;
   box-shadow:0 16px 46px rgba(0,0,0,.24);
