@@ -2,6 +2,7 @@
 // Utilidades básicas
 // ==========================
 const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
 const yearEl = $('#ano');
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
@@ -283,3 +284,86 @@ if (btnLimpeza) {
     openWhatsApp(msg);
   });
 }
+
+// ==========================
+// Menu hambúrguer & navegação
+// ==========================
+const menuToggle = $('.menu-toggle');
+const menuDrawer = $('#mainMenu');
+const menuOverlay = document.querySelector('[data-menu-overlay]');
+const obsField = $('#obs');
+
+if (obsField) {
+  obsField.required = false;
+  obsField.removeAttribute('aria-required');
+}
+
+const setMenuState = (open) => {
+  if (!menuDrawer || !menuToggle || !menuOverlay) return;
+  menuDrawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+  menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  menuOverlay.classList.toggle('is-visible', open);
+  if (open) {
+    menuDrawer.setAttribute('tabindex', '-1');
+    const closeBtn = menuDrawer.querySelector('.menu-close');
+    setTimeout(()=> closeBtn?.focus(), 10);
+  } else {
+    menuToggle.focus();
+  }
+};
+
+const closeMenu = () => setMenuState(false);
+
+menuToggle?.addEventListener('click', () => {
+  const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+  setMenuState(!expanded);
+});
+
+menuOverlay?.addEventListener('click', closeMenu);
+menuDrawer?.querySelector('.menu-close')?.addEventListener('click', closeMenu);
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && menuDrawer?.getAttribute('aria-hidden') === 'false') {
+    closeMenu();
+  }
+});
+
+$$('#mainMenu [data-target]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const mode = btn.dataset.mode || 'default';
+    const targetSel = btn.dataset.target;
+
+    if (obsField) {
+      if (mode === 'maintenance') {
+        obsField.required = true;
+        obsField.setAttribute('aria-required', 'true');
+      } else {
+        obsField.required = false;
+        obsField.removeAttribute('aria-required');
+      }
+    }
+
+    closeMenu();
+
+    if (mode === 'maintenance' && obsField) {
+      setTimeout(() => {
+        obsField.scrollIntoView({ behavior: 'smooth', block: 'center' });
+        obsField.focus({ preventScroll: true });
+      }, 120);
+      return;
+    }
+
+    if (targetSel) {
+      const target = document.querySelector(targetSel);
+      if (target) {
+        target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        if (mode === 'selection') {
+          const search = $('#busca');
+          if (search) {
+            setTimeout(() => search.focus({ preventScroll: true }), 200);
+          }
+        }
+      }
+    }
+  });
+});
