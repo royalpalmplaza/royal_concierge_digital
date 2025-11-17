@@ -2,6 +2,7 @@
 // Utilidades básicas
 // ==========================
 const $ = (sel) => document.querySelector(sel);
+const $$ = (sel) => document.querySelectorAll(sel);
 const yearEl = $('#ano');
 if (yearEl) {
   yearEl.textContent = new Date().getFullYear();
@@ -15,19 +16,9 @@ const getInputValue = (selector, { trim = true } = {}) => {
 };
 
 // ==========================
-// Configuração de WhatsApp
+// Configuração fixa de WhatsApp
 // ==========================
-const DEFAULT_PHONE = '5511999999999';
-const phoneInput = $('#hotelPhone');
-
-if (phoneInput) {
-  phoneInput.value = localStorage.getItem('hotel_phone') || DEFAULT_PHONE;
-  phoneInput.addEventListener('input', () => {
-    const digits = phoneInput.value.replace(/\D/g, '');
-    phoneInput.value = digits;
-    localStorage.setItem('hotel_phone', digits);
-  });
-}
+const DEFAULT_PHONE = '5519971614043';
 
 // ==========================
 // Catálogo bilíngue + descrições
@@ -212,6 +203,7 @@ function updateTotal(){
   if (totalEl) {
     totalEl.textContent=currency(t);
   }
+  toggleFloatingButton();
 }
 
 const searchInput = $('#busca');
@@ -219,6 +211,7 @@ if (searchInput) {
   searchInput.addEventListener('input', e=>renderMenu(e.target.value));
 }
 renderMenu();
+toggleFloatingButton();
 
 // ==========================
 // Mensagens (WhatsApp)
@@ -245,9 +238,7 @@ function buildMessage({ quarto, hora, nome, sobrenome, obs }){
 }
 
 function openWhatsApp(text){
-  const phoneInputValue = getInputValue('#hotelPhone', { trim: false }) || DEFAULT_PHONE;
-  const phone = phoneInputValue.replace(/\D/g,'');
-  const url=`https://wa.me/${phone}?text=${encodeURIComponent(text)}`;
+  const url=`https://wa.me/${DEFAULT_PHONE}?text=${encodeURIComponent(text)}`;
   window.open(url,'_blank','noopener');
   const ok = $('#okMsg'); if(ok) ok.style.display='block';
 }
@@ -260,26 +251,120 @@ if (pedidoForm) {
     const hora=getInputValue('#hora', { trim: false });
     const nome=getInputValue('#nome');
     const sobrenome=getInputValue('#sobrenome');
-    const obs=getInputValue('#obs');
+    const obs=getInputValue('#obsRestaurante');
     const msg=buildMessage({quarto,hora,nome,sobrenome,obs});
     openWhatsApp(msg);
   });
 }
 
-const btnLimpeza = $('#btnLimpeza');
-if (btnLimpeza) {
-  btnLimpeza.addEventListener('click', ()=>{
-    const quarto=getInputValue('#quarto');
-    const nome=getInputValue('#nome');
-    const sobrenome=getInputValue('#sobrenome');
-    const fullName=[nome,sobrenome].filter(Boolean).join(' ');
-    const msg=[
-      'Olá! Poderiam, por favor, enviar a camareira ao meu quarto? / Hello! Could you please send housekeeping to my room?',
+const floatingButton = $('#finalizarPedido');
+
+function toggleFloatingButton(){
+  if (!floatingButton) return;
+  const qty = window.__qty || new Map();
+  const hasItems = Array.from(qty.values()).some(value => Number(value) > 0);
+  floatingButton.hidden = !hasItems;
+}
+
+floatingButton?.addEventListener('click', ()=>{
+  if (pedidoForm?.reportValidity()) {
+    pedidoForm.requestSubmit();
+  }
+});
+
+// ==========================
+// Formulário de manutenção
+// ==========================
+const manutencaoForm = $('#manutencaoForm');
+if (manutencaoForm) {
+  manutencaoForm.addEventListener('submit', (e)=>{
+    e.preventDefault();
+    const quarto = getInputValue('#quartoManutencao');
+    const nome = getInputValue('#nomeManutencao');
+    const obs = getInputValue('#obsManutencao');
+    const issues = Array.from(manutencaoForm.querySelectorAll('input[name="issue"]:checked')).map(el=>el.value);
+    const linhas = [
+      'Solicitação de manutenção / Maintenance request',
       quarto?`Quarto/Apto • Room: ${quarto}`:'',
-      fullName?`Hóspede • Guest: ${fullName}`:'',
-      'Solicitação: troca de toalhas e reposição de amenities. / Request: towel change and amenities refill.',
-      'Obrigado! / Thank you!'
+      nome?`Hóspede • Guest: ${nome}`:'',
+      issues.length?`Problemas selecionados • Selected issues: ${issues.join(', ')}`:'',
+      obs?`Observações • Notes: ${obs}`:'',
+      'Agradeço o pronto atendimento. / Thank you for the prompt support.'
     ].filter(Boolean).join('\n');
-    openWhatsApp(msg);
+    openWhatsApp(linhas);
+  });
+}
+
+// ==========================
+// Menu hambúrguer & navegação
+// ==========================
+const menuToggle = $('.menu-toggle');
+const menuDrawer = $('#mainMenu');
+const menuOverlay = document.querySelector('[data-menu-overlay]');
+
+const setMenuState = (open) => {
+  if (!menuDrawer || !menuToggle || !menuOverlay) return;
+  menuDrawer.setAttribute('aria-hidden', open ? 'false' : 'true');
+  menuToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+  menuOverlay.classList.toggle('is-visible', open);
+  if (open) {
+    menuDrawer.setAttribute('tabindex', '-1');
+    const closeBtn = menuDrawer.querySelector('.menu-close');
+    setTimeout(()=> closeBtn?.focus(), 10);
+  } else {
+    menuToggle.focus();
+  }
+};
+
+const closeMenu = () => setMenuState(false);
+
+menuToggle?.addEventListener('click', () => {
+  const expanded = menuToggle.getAttribute('aria-expanded') === 'true';
+  setMenuState(!expanded);
+});
+
+menuOverlay?.addEventListener('click', closeMenu);
+menuDrawer?.querySelector('.menu-close')?.addEventListener('click', closeMenu);
+
+document.addEventListener('keydown', (event) => {
+  if (event.key === 'Escape' && menuDrawer?.getAttribute('aria-hidden') === 'false') {
+    closeMenu();
+  }
+});
+
+const scrollToTarget = (sel) => {
+  if (!sel) return;
+  const target = document.querySelector(sel);
+  if (target) {
+    target.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
+};
+
+$$('#mainMenu [data-target]').forEach((btn) => {
+  btn.addEventListener('click', () => {
+    const targetSel = btn.dataset.target;
+    closeMenu();
+    setTimeout(()=>scrollToTarget(targetSel), 120);
+  });
+});
+
+$$('.hero-links [data-anchor]').forEach((btn)=>{
+  btn.addEventListener('click', ()=>{
+    const targetSel = btn.getAttribute('data-anchor');
+    scrollToTarget(targetSel);
+  });
+});
+
+// ==========================
+// Filtro de canais
+// ==========================
+const filtroCanais = $('#filtroCanais');
+const canalLinhas = Array.from(document.querySelectorAll('.channels-table tbody tr'));
+if (filtroCanais && canalLinhas.length) {
+  filtroCanais.addEventListener('input', (event)=>{
+    const termo = event.target.value.toLowerCase();
+    canalLinhas.forEach((linha)=>{
+      linha.style.display = linha.textContent.toLowerCase().includes(termo) ? '' : 'none';
+    });
   });
 }

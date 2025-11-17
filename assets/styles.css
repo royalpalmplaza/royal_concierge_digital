@@ -40,6 +40,145 @@ body{
   border-radius:var(--radius-lg);
   box-shadow:var(--shadow-soft);
   overflow:hidden;
+  position:relative;
+}
+
+.sr-only{
+  position:absolute;
+  width:1px;
+  height:1px;
+  padding:0;
+  margin:-1px;
+  overflow:hidden;
+  clip:rect(0,0,0,0);
+  border:0;
+}
+
+.menu-toggle{
+  position:absolute;
+  top:22px;
+  left:22px;
+  z-index:90;
+  background:rgba(4,100,36,.92);
+  border:none;
+  border-radius:999px;
+  padding:14px;
+  cursor:pointer;
+  box-shadow:0 10px 20px rgba(4,100,36,.28);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  transition:transform .2s ease, box-shadow .2s ease;
+}
+
+.menu-toggle:focus-visible,
+.menu-close:focus-visible{
+  outline:3px solid rgba(255,255,255,.85);
+  outline-offset:2px;
+}
+
+.menu-toggle:hover{
+  transform:translateY(-1px);
+  box-shadow:0 16px 30px rgba(4,100,36,.3);
+}
+
+.menu-icon,
+.menu-icon::before,
+.menu-icon::after{
+  display:block;
+  background:#fff;
+  width:20px;
+  height:2px;
+  border-radius:999px;
+  position:relative;
+}
+
+.menu-icon::before,
+.menu-icon::after{
+  content:"";
+  position:absolute;
+  left:0;
+}
+
+.menu-icon::before{top:-6px;}
+.menu-icon::after{top:6px;}
+
+.menu-drawer{
+  position:fixed;
+  inset:0 auto 0 0;
+  width:280px;
+  max-width:80vw;
+  background:#0b2f1a;
+  color:#f9fafb;
+  padding:26px 26px 32px;
+  box-shadow:16px 0 40px rgba(0,0,0,.28);
+  transform:translateX(-110%);
+  transition:transform .3s ease;
+  z-index:100;
+  display:flex;
+  flex-direction:column;
+  gap:18px;
+}
+
+.menu-drawer[aria-hidden="false"]{
+  transform:translateX(0);
+}
+
+.menu-header{
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  font-weight:600;
+  font-size:16px;
+}
+
+.menu-close{
+  background:transparent;
+  border:none;
+  color:#f9fafb;
+  font-size:26px;
+  cursor:pointer;
+}
+
+.menu-drawer ul{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:10px;
+}
+
+.menu-drawer li button{
+  width:100%;
+  background:rgba(249,250,251,.08);
+  border:1px solid rgba(249,250,251,.18);
+  border-radius:12px;
+  padding:12px 16px;
+  color:#f9fafb;
+  font-size:15px;
+  text-align:left;
+  cursor:pointer;
+  transition:background .2s ease, transform .2s ease;
+}
+
+.menu-drawer li button:hover{
+  background:rgba(249,250,251,.22);
+  transform:translateX(2px);
+}
+
+.menu-overlay{
+  position:fixed;
+  inset:0;
+  background:rgba(15,23,42,.45);
+  opacity:0;
+  pointer-events:none;
+  transition:opacity .3s ease;
+  z-index:95;
+}
+
+.menu-overlay.is-visible{
+  opacity:1;
+  pointer-events:auto;
 }
 
 .hero{
@@ -70,22 +209,50 @@ body{
 .hero-content h1{
   margin:12px 0 18px;
   font-family:'Playfair Display', 'Times New Roman', serif;
-  font-size:clamp(34px, 4vw, 50px);
+  font-size:clamp(40px, 5vw, 66px);
   line-height:1.12;
 }
 
 .hero-content .lead{
   margin:0 0 28px;
-  font-size:18px;
+  font-size:19px;
   line-height:1.6;
   color:rgba(249,250,251,.92);
   max-width:520px;
 }
 
+.hero-content .contact{
+  margin:8px 0 18px;
+  font-size:16px;
+  letter-spacing:.05em;
+  text-transform:uppercase;
+  color:rgba(249,250,251,.85);
+}
+
+.hero-links{
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  margin-top:16px;
+}
+
+.hero-links button{
+  border:none;
+  background:rgba(255,255,255,.14);
+  color:#fff;
+  padding:10px 18px;
+  border-radius:999px;
+  font-weight:600;
+  cursor:pointer;
+  transition:background .2s ease, transform .2s ease;
+}
+
+.hero-links button:hover{background:rgba(255,255,255,.22); transform:translateY(-1px);}
+
 .eyebrow{
   text-transform:uppercase;
   letter-spacing:.24em;
-  font-size:12px;
+  font-size:14px;
   font-weight:600;
   margin:0;
   color:rgba(249,250,251,.7);
@@ -185,6 +352,90 @@ textarea{resize:vertical; min-height:110px}
   border-radius:var(--radius-md);
   padding:32px;
   box-shadow:var(--shadow-card);
+}
+
+.input-filter{
+  margin-bottom:18px;
+  border-radius:999px;
+}
+
+.issues{
+  border:1px solid var(--borda);
+  border-radius:var(--radius-md);
+  padding:18px;
+  margin:22px 0;
+  display:grid;
+  gap:10px;
+}
+
+.issues legend{
+  font-weight:700;
+  color:var(--cor-principal);
+  margin-bottom:6px;
+}
+
+.issues label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:15px;
+}
+
+.issues input{width:auto;}
+
+.list-card h3{
+  margin-top:0;
+  margin-bottom:12px;
+  font-size:18px;
+  color:var(--cor-principal);
+}
+
+.list-columns{
+  list-style:none;
+  margin:0;
+  padding:0;
+  display:grid;
+  gap:10px;
+  grid-template-columns:repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.list-columns li{
+  font-size:15px;
+  line-height:1.5;
+}
+
+.list-bullets{
+  margin:0;
+  padding-left:20px;
+  display:grid;
+  gap:10px;
+}
+
+.list-bullets li{
+  font-size:15px;
+  line-height:1.6;
+}
+
+.channels-table{
+  width:100%;
+  border-collapse:collapse;
+  font-size:15px;
+}
+
+.channels-table th,
+.channels-table td{
+  border:1px solid rgba(4,100,36,.15);
+  padding:10px 12px;
+  text-align:left;
+}
+
+.channels-table thead th{
+  background:rgba(4,100,36,.08);
+  font-weight:700;
+}
+
+.channels-table tbody tr:nth-child(odd){
+  background:rgba(4,100,36,.04);
 }
 
 #menu{
@@ -298,6 +549,33 @@ details.box .grid:last-child{border-bottom:0}
   font-size:20px;
 }
 
+.floating-action{
+  position:fixed;
+  bottom:24px;
+  right:24px;
+  z-index:120;
+  padding:18px 28px;
+  border-radius:999px;
+  border:none;
+  background:linear-gradient(135deg, var(--cor-destaque), #f5d7a1);
+  color:#1b1b1b;
+  font-weight:700;
+  font-size:16px;
+  box-shadow:0 20px 35px rgba(0,0,0,.25);
+  cursor:pointer;
+  transition:transform .2s ease, box-shadow .2s ease, opacity .2s ease;
+}
+
+.floating-action[hidden]{
+  opacity:0;
+  pointer-events:none;
+}
+
+.floating-action:hover{
+  transform:translateY(-2px);
+  box-shadow:0 26px 40px rgba(0,0,0,.35);
+}
+
 footer{
   padding:36px 64px 40px;
   background:#0a1811;
@@ -335,8 +613,10 @@ footer{
   .hero-content{display:flex; flex-direction:column; align-items:center;}
   .hero-content .lead{max-width:none;}
   .hero-actions{justify-content:center;}
+  .hero-links{justify-content:center;}
   main{padding:40px 28px;}
   footer{padding:32px 28px;}
+  .menu-toggle{top:16px; left:16px;}
 }
 
 @media (max-width:640px){
@@ -348,4 +628,6 @@ footer{
   .btn{width:100%;}
   .btn-outline{justify-content:center;}
   .hero-actions{width:100%;}
+  .menu-drawer{width:240px;}
+  .floating-action{left:16px; right:16px; bottom:18px; width:auto; justify-content:center;}
 }

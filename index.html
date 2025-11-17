@@ -11,6 +11,25 @@
 </head>
 <body>
   <div class="page">
+    <button class="menu-toggle" type="button" aria-controls="mainMenu" aria-expanded="false">
+      <span class="sr-only">Abrir menu</span>
+      <span class="menu-icon"></span>
+    </button>
+    <nav id="mainMenu" class="menu-drawer" aria-hidden="true">
+      <div class="menu-header">
+        <span>Menu rápido</span>
+        <button class="menu-close" type="button" aria-label="Fechar menu">×</button>
+      </div>
+      <ul>
+        <li><button type="button" data-target="#order">Restaurante</button></li>
+        <li><button type="button" data-target="#maintenance">Manutenção</button></li>
+        <li><button type="button" data-target="#ramais">Ramais</button></li>
+        <li><button type="button" data-target="#canais">Relação de canais</button></li>
+        <li><button type="button" data-target="#guest-service">Guest Service</button></li>
+        <li><button type="button" data-target="#restaurante">Restaurante físico</button></li>
+      </ul>
+    </nav>
+    <div class="menu-overlay" data-menu-overlay></div>
     <header class="hero">
       <div class="hero-media">
         <img id="hotelLogo" src="assets/logo.svg" alt="Logo do Hotel" />
@@ -18,26 +37,23 @@
       <div class="hero-content">
         <p class="eyebrow">Royal Concierge Digital</p>
         <h1>Serviço de quarto refinado em poucos toques.</h1>
-        <p class="lead">Seu concierge digital bilíngue, pronto para encantar hóspedes com pedidos personalizados, comunicação instantânea e experiências memoráveis.</p>
+        <p class="lead">Seu Royal concierge digital, pronto para encantar você com atenção personalizada, comunicação imediata e experiências inesquecíveis.</p>
         <div class="hero-actions">
           <a class="btn btn-primary" href="#pedidoForm">Começar pedido • Start order</a>
-          <a class="btn btn-outline" href="#info">Saiba mais • Learn more</a>
+        </div>
+        <p class="contact">WhatsApp direto • Direct WhatsApp <strong>+55 19 97161-4043</strong></p>
+        <div class="hero-links" aria-label="Acessos rápidos">
+          <button type="button" data-anchor="#order">Restaurante</button>
+          <button type="button" data-anchor="#maintenance">Manutenção</button>
+          <button type="button" data-anchor="#ramais">Ramais</button>
+          <button type="button" data-anchor="#canais">Canais</button>
+          <button type="button" data-anchor="#guest-service">Guest Service</button>
+          <button type="button" data-anchor="#restaurante">Restaurante físico</button>
         </div>
       </div>
     </header>
 
     <main>
-      <section class="panel" id="info">
-        <h2>Configurações rápidas</h2>
-        <p class="panel-lead">Defina o número oficial de WhatsApp do hotel para centralizar pedidos, garantir privacidade e manter a equipe alinhada.</p>
-        <details class="box" open>
-          <summary>Configurar WhatsApp do hotel • Set hotel WhatsApp</summary>
-          <label for="hotelPhone">Telefone do hotel (DDI+DDD+nº, só dígitos) • Hotel phone (country+area+number, digits only)</label>
-          <input id="hotelPhone" type="tel" placeholder="5511999999999" />
-          <p class="hint">Ex.: Brasil = 55. Salva automaticamente. • Example: Brazil=55. Saved locally.</p>
-        </details>
-      </section>
-
       <section class="panel" id="order">
         <h2>Peça sem complicações</h2>
         <p class="panel-lead">Selecione pratos e bebidas, informe preferências e finalize o atendimento em um clique.</p>
@@ -70,19 +86,196 @@
 
           <div id="menu"></div>
 
-          <label for="obs">Observações / Notes</label>
-          <textarea id="obs" placeholder="Ex.: Café sem açúcar; sem cebola; 2 talheres extras. / e.g., No sugar; no onions; 2 extra cutlery."></textarea>
+          <label for="obsRestaurante">Observações do restaurante • Restaurant notes</label>
+          <textarea id="obsRestaurante" placeholder="Ex.: Café sem açúcar; sem cebola; 2 talheres extras. / e.g., No sugar; no onions; 2 extra cutlery." required></textarea>
 
           <div class="total">
             <span>Total estimado • Estimated total</span>
             <span id="total">R$ 0,00</span>
           </div>
-
-          <button class="btn btn-primary" type="submit">Abrir WhatsApp com o pedido • Open WhatsApp with order</button>
-          <button class="btn btn-secondary" type="button" id="btnLimpeza">Pedir limpeza/toalhas • Request housekeeping/towels</button>
         </form>
 
         <div id="okMsg" class="hint" role="status" aria-live="polite" style="display:none; margin-top:10px"><span class="ok">✔</span> Link aberto no WhatsApp • Link opened in WhatsApp.</div>
+      </section>
+
+      <section class="panel" id="maintenance">
+        <h2>Manutenção imediata</h2>
+        <p class="panel-lead">Informe o problema encontrado no apartamento para atendimento ágil.</p>
+
+        <form id="manutencaoForm" class="card">
+          <div class="field-group">
+            <div class="field">
+              <label for="quartoManutencao">Número do quarto/apto • Room number</label>
+              <input id="quartoManutencao" name="quartoManutencao" type="text" placeholder="Ex.: 201" required />
+            </div>
+            <div class="field">
+              <label for="nomeManutencao">Nome • First name (opcional)</label>
+              <input id="nomeManutencao" name="nomeManutencao" type="text" placeholder="Maria" />
+            </div>
+          </div>
+
+          <fieldset class="issues">
+            <legend>Selecione o problema • Select the issue</legend>
+            <label><input type="checkbox" name="issue" value="Lâmpada queimada / Burned-out bulb"> Lâmpada queimada • Burned-out bulb</label>
+            <label><input type="checkbox" name="issue" value="Vaso sanitário entupido / Clogged toilet"> Vaso sanitário entupido • Clogged toilet</label>
+            <label><input type="checkbox" name="issue" value="Descarga com problema / Flush malfunction"> Descarga com problema • Flush malfunction</label>
+            <label><input type="checkbox" name="issue" value="Televisão não funciona / TV not working"> Televisão não funciona • TV not working</label>
+            <label><input type="checkbox" name="issue" value="Chuveiro com problema / Shower issue"> Chuveiro com problema • Shower issue</label>
+            <label><input type="checkbox" name="issue" value="Telefone não funciona / Phone not working"> Telefone não funciona • Phone not working</label>
+            <label><input type="checkbox" name="issue" value="Vazamento / Leak"> Vazamento • Leak</label>
+          </fieldset>
+
+          <label for="obsManutencao">Observações para a equipe • Notes for the team</label>
+          <textarea id="obsManutencao" placeholder="Detalhe o local do problema, acesso ou horários ideais. / Detail the location, access or best times." required></textarea>
+
+          <button class="btn btn-primary" type="submit">Enviar manutenção • Send maintenance</button>
+        </form>
+      </section>
+
+      <section class="panel" id="ramais">
+        <h2>Ramais úteis</h2>
+        <p class="panel-lead">Conecte-se rapidamente com os principais setores do Royal Palm Resort.</p>
+        <div class="card list-card">
+          <h3>Ramais do Royal Palm Resort</h3>
+          <ul class="list-columns">
+            <li><strong>Telefonista</strong>: 9</li>
+            <li><strong>Recepção • Royal Palm Plaza</strong>: 630</li>
+            <li><strong>Recepção • The Palms</strong>: 8500</li>
+            <li><strong>Concierge</strong>: 8200</li>
+            <li><strong>Loja Kari</strong>: 8533</li>
+            <li><strong>Guest Service</strong>: 620</li>
+            <li><strong>Room Service</strong>: 8040</li>
+            <li><strong>Segurança</strong>: 8580</li>
+            <li><strong>Anfora Spa</strong>: 8101</li>
+            <li><strong>Reservas dos restaurantes</strong>: 8092</li>
+          </ul>
+          <h3>Aeroportos e turismo</h3>
+          <ul class="list-columns">
+            <li><strong>Aeroporto Internacional de Viracopos – Campinas</strong>: (19) 3725-5000</li>
+            <li><strong>Aeroporto Internacional de São Paulo – Guarulhos</strong>: (11) 2445-2945</li>
+            <li><strong>Aeroporto de Congonhas – São Paulo</strong>: (11) 5090-9000</li>
+            <li><strong>Campinas e Região Convention &amp; Visitors Bureau</strong>: (19) 3232-5444</li>
+            <li><strong>Visite Campinas</strong>: (19) 3232-5474</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="panel" id="canais">
+        <h2>Relação de canais</h2>
+        <p class="panel-lead">Os apartamentos contam com canais abertos e por assinatura. Confira abaixo a grade disponível nas TVs.</p>
+        <div class="card">
+          <label for="filtroCanais" class="sr-only">Filtrar canais</label>
+          <input type="text" id="filtroCanais" class="input-filter" placeholder="Buscar canal por número ou nome" />
+          <table class="channels-table">
+            <thead>
+              <tr>
+                <th>Nº</th>
+                <th>Canal</th>
+                <th>Channel</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr><td>1</td><td>Canal Local</td><td>Local Channel</td></tr>
+              <tr><td>2</td><td>SBT HD</td><td>SBT HD</td></tr>
+              <tr><td>3</td><td>Record HD</td><td>Record HD</td></tr>
+              <tr><td>4</td><td>Band HD</td><td>Band HD</td></tr>
+              <tr><td>5</td><td>RedeTV! HD</td><td>RedeTV! HD</td></tr>
+              <tr><td>6</td><td>Globo HD</td><td>Globo HD</td></tr>
+              <tr><td>7</td><td>Globonews HD</td><td>Globonews HD</td></tr>
+              <tr><td>8</td><td>Multishow HD</td><td>Multishow HD</td></tr>
+              <tr><td>9</td><td>Viva HD</td><td>Viva HD</td></tr>
+              <tr><td>10</td><td>GNT HD</td><td>GNT HD</td></tr>
+              <tr><td>11</td><td>Megapix HD</td><td>Megapix HD</td></tr>
+              <tr><td>12</td><td>Universal TV HD</td><td>Universal TV HD</td></tr>
+              <tr><td>13</td><td>Warner Channel HD</td><td>Warner Channel HD</td></tr>
+              <tr><td>14</td><td>FX HD</td><td>FX HD</td></tr>
+              <tr><td>15</td><td>AXN HD</td><td>AXN HD</td></tr>
+              <tr><td>16</td><td>Discovery Channel HD</td><td>Discovery Channel HD</td></tr>
+              <tr><td>17</td><td>History HD</td><td>History HD</td></tr>
+              <tr><td>18</td><td>National Geographic HD</td><td>National Geographic HD</td></tr>
+              <tr><td>19</td><td>Discovery Home &amp; Health HD</td><td>Discovery Home &amp; Health HD</td></tr>
+              <tr><td>20</td><td>Discovery Kids HD</td><td>Discovery Kids HD</td></tr>
+              <tr><td>21</td><td>Cartoon Network HD</td><td>Cartoon Network HD</td></tr>
+              <tr><td>22</td><td>Nickelodeon HD</td><td>Nickelodeon HD</td></tr>
+              <tr><td>23</td><td>Disney Channel HD</td><td>Disney Channel HD</td></tr>
+              <tr><td>24</td><td>ESPN HD</td><td>ESPN HD</td></tr>
+              <tr><td>25</td><td>ESPN 2 HD</td><td>ESPN 2 HD</td></tr>
+              <tr><td>26</td><td>Sportv HD</td><td>Sportv HD</td></tr>
+              <tr><td>27</td><td>Sportv 2 HD</td><td>Sportv 2 HD</td></tr>
+              <tr><td>28</td><td>Sportv 3 HD</td><td>Sportv 3 HD</td></tr>
+              <tr><td>29</td><td>Premiere Clubes HD</td><td>Premiere Clubes HD</td></tr>
+              <tr><td>30</td><td>Space HD</td><td>Space HD</td></tr>
+              <tr><td>31</td><td>Telecine Premium HD</td><td>Telecine Premium HD</td></tr>
+              <tr><td>32</td><td>Telecine Action HD</td><td>Telecine Action HD</td></tr>
+              <tr><td>33</td><td>Telecine Touch HD</td><td>Telecine Touch HD</td></tr>
+              <tr><td>34</td><td>Telecine Fun HD</td><td>Telecine Fun HD</td></tr>
+              <tr><td>35</td><td>Telecine Pipoca HD</td><td>Telecine Pipoca HD</td></tr>
+              <tr><td>36</td><td>Telecine Cult HD</td><td>Telecine Cult HD</td></tr>
+              <tr><td>37</td><td>TNT HD</td><td>TNT HD</td></tr>
+              <tr><td>38</td><td>AMC HD</td><td>AMC HD</td></tr>
+              <tr><td>39</td><td>Studio Universal HD</td><td>Studio Universal HD</td></tr>
+              <tr><td>40</td><td>Syfy HD</td><td>Syfy HD</td></tr>
+              <tr><td>41</td><td>Canal Brasil HD</td><td>Canal Brasil HD</td></tr>
+              <tr><td>42</td><td>GloboNews HD</td><td>GloboNews HD</td></tr>
+              <tr><td>43</td><td>BandNews HD</td><td>BandNews HD</td></tr>
+              <tr><td>44</td><td>Record News HD</td><td>Record News HD</td></tr>
+              <tr><td>45</td><td>Bloomberg HD</td><td>Bloomberg HD</td></tr>
+              <tr><td>46</td><td>CNN Brasil</td><td>CNN Brasil</td></tr>
+              <tr><td>47</td><td>BBC World News</td><td>BBC World News</td></tr>
+              <tr><td>48</td><td>Fox Sports HD</td><td>Fox Sports HD</td></tr>
+              <tr><td>49</td><td>Discovery Turbo HD</td><td>Discovery Turbo HD</td></tr>
+              <tr><td>50</td><td>Food Network HD</td><td>Food Network HD</td></tr>
+              <tr><td>51</td><td>HGTV HD</td><td>HGTV HD</td></tr>
+              <tr><td>52</td><td>Travel Box Brazil HD</td><td>Travel Box Brazil HD</td></tr>
+              <tr><td>53</td><td>MTV HD</td><td>MTV HD</td></tr>
+              <tr><td>54</td><td>MTV Live HD</td><td>MTV Live HD</td></tr>
+              <tr><td>55</td><td>Comedy Central HD</td><td>Comedy Central HD</td></tr>
+              <tr><td>56</td><td>Paramount Network HD</td><td>Paramount Network HD</td></tr>
+              <tr><td>57</td><td>TBS HD</td><td>TBS HD</td></tr>
+              <tr><td>58</td><td>FX HD</td><td>FX HD</td></tr>
+              <tr><td>59</td><td>Fox Life HD</td><td>Fox Life HD</td></tr>
+              <tr><td>60</td><td>Lifetime HD</td><td>Lifetime HD</td></tr>
+              <tr><td>61</td><td>MTV HD</td><td>MTV HD</td></tr>
+              <tr><td>62</td><td>Space HD</td><td>Space HD</td></tr>
+              <tr><td>63</td><td>Cinemax HD</td><td>Cinemax HD</td></tr>
+              <tr><td>64</td><td>Studio Universal HD</td><td>Studio Universal HD</td></tr>
+              <tr><td>65</td><td>CNN Brasil HD</td><td>CNN Brasil HD</td></tr>
+              <tr><td>66</td><td>Globo HD</td><td>Globo HD</td></tr>
+              <tr><td>67</td><td>Band HD</td><td>Band HD</td></tr>
+              <tr><td>68</td><td>Record HD</td><td>Record HD</td></tr>
+              <tr><td>69</td><td>Paramount HD</td><td>Paramount HD</td></tr>
+            </tbody>
+          </table>
+          <p class="hint">Outras opções de canais estão disponíveis na sala de TV coletiva.</p>
+        </div>
+      </section>
+
+      <section class="panel" id="guest-service">
+        <h2>Guest Service</h2>
+        <p class="panel-lead">Equipe pronta para atender solicitações especiais, passeios, informações e serviços personalizados durante toda a estadia.</p>
+        <div class="card">
+          <p>O Guest Service está disponível a qualquer momento para apoiar suas necessidades. Ao necessitar de itens como toalhas adicionais, adaptadores, amenities especiais ou suporte com passeios e transporte, ligue para o ramal <strong>620</strong>.</p>
+          <ul class="list-bullets">
+            <li>Pedidos de room service e frigobar.</li>
+            <li>Toalhas, roupas de cama e amenities extras.</li>
+            <li>Adaptação do berço ou cama extra (mediante disponibilidade).</li>
+            <li>Orientação sobre passeios, transporte, eventos e atrações na região.</li>
+            <li>Informações sobre horários de serviços, piscinas, clube e atividades.</li>
+          </ul>
+        </div>
+      </section>
+
+      <section class="panel" id="restaurante">
+        <h2>Restaurante</h2>
+        <p class="panel-lead">Conheça os horários e facilidades do serviço de alimentação para planejar suas refeições.</p>
+        <div class="card">
+          <ul class="list-bullets">
+            <li>Café da manhã servido no quarto entre <strong>6h e 11h</strong>.</li>
+            <li>Reservas presenciais e dúvidas: ramal <strong>8092</strong>.</li>
+            <li>Menu 24h disponível neste concierge digital, com atendimento imediato via WhatsApp.</li>
+          </ul>
+          <p class="hint">Utilize o concierge digital para adiantar preferências antes de visitar o restaurante.</p>
+        </div>
       </section>
     </main>
 
@@ -90,17 +283,18 @@
       <div class="footer-content">
         <div>
           <h3>Experiências impecáveis</h3>
-          <p>Café da manhã no quarto: 06h–11h. Sopas incluem 80g de pães/torradas. Caipirinhas 400ml. Ajuste o número do WhatsApp acima.</p>
+          <p>Serviço 24h, equipe trilíngue e WhatsApp dedicado <strong>+55 19 97161-4043</strong>.</p>
         </div>
         <div>
           <h3>Memorable stays</h3>
-          <p>Breakfast in room: 6:00–11:00. Soups include 80g bread/toast. Caipirinhas 400ml. Set WhatsApp number above.</p>
+          <p>24/7 service, multilingual staff and a dedicated WhatsApp line <strong>+55 19 97161-4043</strong>.</p>
         </div>
       </div>
       <p class="mini">© <span id="ano"></span> Royal Concierge Digital.</p>
     </footer>
   </div>
 
+  <button type="button" id="finalizarPedido" class="floating-action" hidden>Finalizar pedido • Finish order</button>
   <script src="assets/app.js"></script>
 </body>
 </html>
