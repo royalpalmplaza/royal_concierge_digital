@@ -1,20 +1,21 @@
- <!DOCTYPE html>
- <html lang="pt-br">
- <head>
-   <meta charset="UTF-8" />
-   <meta name="viewport" content="width=device-width, initial-scale=1" />
-   <title>Royal Concierge Digital</title>
-   <link rel="stylesheet" href="assets/styles.css">
-   <link rel="preconnect" href="https://fonts.googleapis.com">
-   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-   <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
- </head>
- <body>
-   <div class="page">
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Royal Concierge Digital</title>
+  <link rel="stylesheet" href="assets/styles.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+  <div class="page">
     <button class="menu-toggle" type="button" aria-controls="mainMenu" aria-expanded="false">
       <span class="sr-only">Abrir menu</span>
       <span class="menu-icon"></span>
     </button>
+
     <nav id="mainMenu" class="menu-drawer" aria-hidden="true">
       <div class="menu-header">
         <span>Menu rápido</span>
@@ -29,17 +30,19 @@
         <li><button type="button" data-target="#restaurante">Restaurante físico</button></li>
       </ul>
     </nav>
+
     <div class="menu-overlay" data-menu-overlay></div>
-     <header class="hero">
-       <div class="hero-media">
-         <img id="hotelLogo" src="assets/logo.svg" alt="Logo do Hotel" />
-       </div>
-       <div class="hero-content">
-         <p class="eyebrow">Royal Concierge Digital</p>
-         <h1>Serviço de quarto refinado em poucos toques.</h1>
+
+    <header class="hero">
+      <div class="hero-media">
+        <img id="hotelLogo" src="assets/logo.svg" alt="Logo do Hotel" />
+      </div>
+      <div class="hero-content">
+        <p class="eyebrow">Royal Concierge Digital</p>
+        <h1>Serviço de quarto refinado em poucos toques.</h1>
         <p class="lead">Seu Royal concierge digital, pronto para encantar você com atenção personalizada, comunicação imediata e experiências inesquecíveis.</p>
-         <div class="hero-actions">
-           <a class="btn btn-primary" href="#pedidoForm">Começar pedido • Start order</a>
+        <div class="hero-actions">
+          <a class="btn btn-primary" href="#pedidoForm">Começar pedido • Start order</a>
         </div>
         <p class="contact">WhatsApp direto • Direct WhatsApp <strong>+55 19 97161-4043</strong></p>
         <div class="hero-links" aria-label="Acessos rápidos">
@@ -49,55 +52,56 @@
           <button type="button" data-anchor="#canais">Canais</button>
           <button type="button" data-anchor="#guest-service">Guest Service</button>
           <button type="button" data-anchor="#restaurante">Restaurante físico</button>
-         </div>
-       </div>
-     </header>
- 
-     <main>
-       <section class="panel" id="order">
-         <h2>Peça sem complicações</h2>
-         <p class="panel-lead">Selecione pratos e bebidas, informe preferências e finalize o atendimento em um clique.</p>
- 
-         <form id="pedidoForm" class="card">
-           <div class="field-group">
-             <div class="field">
-               <label for="quarto">Número do quarto/apto • Room number</label>
-               <input id="quarto" name="quarto" type="text" placeholder="Ex.: 201" required />
-             </div>
-             <div class="field">
-               <label for="hora">Preferência de entrega • Delivery time (opcional)</label>
-               <input id="hora" name="hora" type="time" />
-             </div>
-           </div>
- 
-           <div class="field-group">
-             <div class="field">
-               <label for="nome">Nome • First name</label>
-               <input id="nome" name="nome" type="text" placeholder="Maria" autocomplete="given-name" required />
-             </div>
-             <div class="field">
-               <label for="sobrenome">Sobrenome • Last name</label>
-               <input id="sobrenome" name="sobrenome" type="text" placeholder="Silva" autocomplete="family-name" required />
-             </div>
-           </div>
- 
-           <label for="busca">Pesquisar itens • Search items</label>
-           <input id="busca" type="text" placeholder="Ex.: omelete, suco, salada… / e.g., omelet, juice, salad…" />
- 
-           <div id="menu"></div>
- 
+        </div>
+      </div>
+    </header>
+
+    <main>
+      <section class="panel" id="order">
+        <h2>Peça sem complicações</h2>
+        <p class="panel-lead">Selecione pratos e bebidas, informe preferências e finalize o atendimento em um clique.</p>
+
+        <form id="pedidoForm" class="card">
+          <div class="field-group">
+            <div class="field">
+              <label for="quarto">Número do quarto/apto • Room number</label>
+              <input id="quarto" name="quarto" type="text" placeholder="Ex.: 201" required />
+            </div>
+            <div class="field">
+              <label for="hora">Preferência de entrega • Delivery time (opcional)</label>
+              <input id="hora" name="hora" type="time" />
+            </div>
+          </div>
+
+          <div class="field-group">
+            <div class="field">
+              <label for="nome">Nome • First name</label>
+              <input id="nome" name="nome" type="text" placeholder="Maria" autocomplete="given-name" required />
+            </div>
+            <div class="field">
+              <label for="sobrenome">Sobrenome • Last name</label>
+              <input id="sobrenome" name="sobrenome" type="text" placeholder="Silva" autocomplete="family-name" required />
+            </div>
+          </div>
+
+          <label for="busca">Pesquisar itens • Search items</label>
+          <input id="busca" type="text" placeholder="Ex.: omelete, suco, salada… / e.g., omelet, juice, salad…" />
+
+          <div id="menu"></div>
 
           <label for="obsRestaurante">Observações do restaurante • Restaurant notes</label>
           <textarea id="obsRestaurante" placeholder="Ex.: Café sem açúcar; sem cebola; 2 talheres extras. / e.g., No sugar; no onions; 2 extra cutlery." required></textarea>
- 
-           <div class="total">
-             <span>Total estimado • Estimated total</span>
-             <span id="total">R$ 0,00</span>
-           </div>
-         </form>
- 
-         <div id="okMsg" class="hint" role="status" aria-live="polite" style="display:none; margin-top:10px"><span class="ok">✔</span> Link aberto no WhatsApp • Link opened in WhatsApp.</div>
-       </section>
+
+          <div class="total">
+            <span>Total estimado • Estimated total</span>
+            <span id="total">R$ 0,00</span>
+          </div>
+        </form>
+
+        <div id="okMsg" class="hint" role="status" aria-live="polite" style="display:none; margin-top:10px">
+          <span class="ok">✔</span> Link aberto no WhatsApp • Link opened in WhatsApp.
+        </div>
+      </section>
 
       <section class="panel" id="maintenance">
         <h2>Manutenção imediata</h2>
@@ -278,24 +282,27 @@
           <p class="hint">Utilize o concierge digital para adiantar preferências antes de visitar o restaurante.</p>
         </div>
       </section>
-     </main>
- 
-     <footer>
-       <div class="footer-content">
-         <div>
-           <h3>Experiências impecáveis</h3>
+    </main>
+
+    <footer>
+      <div class="footer-content">
+        <div>
+          <h3>Experiências impecáveis</h3>
           <p>Serviço 24h, equipe trilíngue e WhatsApp dedicado <strong>+55 19 97161-4043</strong>.</p>
-         </div>
-         <div>
-           <h3>Memorable stays</h3>
+        </div>
+        <div>
+          <h3>Memorable stays</h3>
           <p>24/7 service, multilingual staff and a dedicated WhatsApp line <strong>+55 19 97161-4043</strong>.</p>
-         </div>
-       </div>
-       <p class="mini">© <span id="ano"></span> Royal Concierge Digital.</p>
-     </footer>
-   </div>
- 
-  <button type="button" id="finalizarPedido" class="floating-action" hidden>Finalizar pedido • Finish order</button>
-   <script src="assets/app.js"></script>
- </body>
- </html>
+        </div>
+      </div>
+      <p class="mini">© <span id="ano"></span> Royal Concierge Digital.</p>
+    </footer>
+  </div>
+
+  <button type="button" id="finalizarPedido" class="floating-action" hidden>
+    Finalizar pedido • Finish order
+  </button>
+
+  <script src="assets/app.js"></script>
+</body>
+</html>
