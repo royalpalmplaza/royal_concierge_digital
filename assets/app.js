@@ -101,8 +101,12 @@
       footerTextPt: 'Serviço de quarto 24h e equipe dedicada para tornar sua estadia mais confortável.',
       footerTitleEn: 'Memorable stays',
       footerTextEn: '24/7 room service and a dedicated team to make your stay more comfortable.',
+<<<<<<< HEAD
       floatingButton: 'Finalizar pedido',
       menuFallback: 'Veja detalhes com o atendimento.'
+=======
+      floatingButton: 'Finalizar pedido'
+>>>>>>> origin/main
     },
     en: {
       menuOpen: 'Open menu',
@@ -176,6 +180,7 @@
       footerTextPt: '24/7 room service and a dedicated team to make your stay more comfortable.',
       footerTitleEn: 'Memorable stays',
       footerTextEn: '24/7 room service and a dedicated team to make your stay more comfortable.',
+<<<<<<< HEAD
       floatingButton: 'Finish order',
       menuFallback: 'See details with the staff.'
     },
@@ -718,6 +723,12 @@
     ar: { lang: 'ar', dir: 'rtl' }
   };
 
+=======
+      floatingButton: 'Finish order'
+    }
+  };
+
+>>>>>>> origin/main
   const state = {
     carrinho: new Map(), // index -> quantidade
     activeForm: null // 'restaurant' | 'maintenance'
@@ -729,9 +740,13 @@
   function applyTranslations() {
     const dict = translations[currentLang];
     if (!dict) return;
+<<<<<<< HEAD
     const meta = languageMeta[currentLang] || languageMeta.pt;
     document.documentElement.lang = meta.lang;
     document.documentElement.dir = meta.dir;
+=======
+    document.documentElement.lang = currentLang === 'en' ? 'en' : 'pt-br';
+>>>>>>> origin/main
 
     document.querySelectorAll('[data-i18n]').forEach((el) => {
       const key = el.dataset.i18n;
@@ -767,7 +782,11 @@
   }
 
   function setLanguage(lang) {
+<<<<<<< HEAD
     if (!translations[lang]) return;
+=======
+    if (lang !== 'pt' && lang !== 'en') return;
+>>>>>>> origin/main
     currentLang = lang;
     applyTranslations();
     renderMenu(buscaEl?.value || '');
@@ -1281,8 +1300,12 @@
   function renderMenu(filtro = '') {
     if (!menuEl) return;
     const term = filtro.trim().toLowerCase();
+<<<<<<< HEAD
     const usePortuguese = currentLang === 'pt';
     const dict = translations[currentLang] || translations.pt;
+=======
+    const isEnglish = currentLang === 'en';
+>>>>>>> origin/main
 
     menuEl.innerHTML = '';
 
@@ -1303,8 +1326,13 @@
         row.dataset.index = String(item.index);
 
         const colNome = document.createElement('div');
+<<<<<<< HEAD
         const nomePrincipal = usePortuguese ? item.nome : item.eng;
         const nomeSecundario = usePortuguese ? item.eng : item.nome;
+=======
+        const nomePrincipal = isEnglish ? item.eng : item.nome;
+        const nomeSecundario = isEnglish ? item.nome : item.eng;
+>>>>>>> origin/main
         colNome.innerHTML = nomeSecundario
           ? `<strong>${nomePrincipal}</strong><br><small>${nomeSecundario}</small>`
           : `<strong>${nomePrincipal}</strong>`;
@@ -1337,8 +1365,15 @@
 
         const desc = document.createElement('div');
         desc.className = 'desc';
+<<<<<<< HEAD
         const fallback = dict.menuFallback || translations.pt.menuFallback;
         const descricao = usePortuguese ? item.descPt : item.descEn;
+=======
+        const fallback = isEnglish
+          ? 'See details with the staff.'
+          : 'Veja detalhes com o atendimento.';
+        const descricao = isEnglish ? item.descEn : item.descPt;
+>>>>>>> origin/main
         const paragrafo = document.createElement('p');
         paragrafo.textContent = descricao || fallback;
         desc.append(paragrafo);
