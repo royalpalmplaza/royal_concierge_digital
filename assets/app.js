@@ -25,6 +25,160 @@
   const menuOverlay = document.querySelector('[data-menu-overlay]');
   const menuClose = $('.menu-close');
 
+  const languageButtons = $$('.language-option');
+  let currentLang = 'pt';
+
+  const translations = {
+    pt: {
+      menuOpen: 'Abrir menu',
+      quickMenu: 'Menu rápido',
+      menuRestaurant: 'Restaurante',
+      menuMaintenance: 'Manutenção',
+      menuGuestService: 'Guest Service',
+      menuExtensions: 'Ramais',
+      menuChannels: 'Canais',
+      heroTitle: 'Serviço de quarto refinado em poucos toques.',
+      heroLead:
+        'Seu Royal concierge digital, pronto para encantar você com atenção personalizada, comunicação imediata e experiências inesquecíveis.',
+      startOrder: 'Começar pedido',
+      quickRestaurant: 'Restaurante',
+      quickMaintenance: 'Manutenção',
+      quickGuestService: 'Guest Service',
+      quickExtensions: 'Ramais',
+      quickChannels: 'Canais',
+      orderTitle: 'Peça sem complicações',
+      orderLead:
+        'Selecione pratos e bebidas, informe preferências e finalize o atendimento em um clique.',
+      roomNumber: 'Número do quarto/apto',
+      roomPlaceholder: 'Ex.: 201',
+      deliveryTime: 'Preferência de entrega (opcional)',
+      firstName: 'Nome',
+      firstNamePlaceholder: 'Maria',
+      lastName: 'Sobrenome',
+      lastNamePlaceholder: 'Silva',
+      searchItems: 'Pesquisar itens',
+      searchPlaceholder: 'Ex.: omelete, suco, salada…',
+      restaurantNotes: 'Observações do restaurante',
+      restaurantNotesPlaceholder: 'Ex.: Café sem açúcar; sem cebola; 2 talheres extras.',
+      estimatedTotal: 'Total estimado',
+      whatsAppHint: 'Link aberto no WhatsApp.',
+      maintenanceTitle: 'Manutenção imediata',
+      maintenanceLead: 'Informe o problema encontrado no apartamento para atendimento ágil.',
+      maintenanceRoom: 'Número do quarto/apto',
+      maintenanceRoomPlaceholder: 'Ex.: 201',
+      maintenanceName: 'Nome (opcional)',
+      maintenanceNamePlaceholder: 'Maria',
+      issueLegend: 'Selecione o problema',
+      issueBulb: 'Lâmpada queimada',
+      issueToilet: 'Vaso sanitário entupido',
+      issueFlush: 'Descarga com problema',
+      issueTv: 'Televisão não funciona',
+      issueShower: 'Chuveiro com problema',
+      issuePhone: 'Telefone não funciona',
+      issueLeak: 'Vazamento',
+      maintenanceNotes: 'Observações para a equipe',
+      maintenanceNotesPlaceholder: 'Detalhe o local do problema, acesso ou horários ideais.',
+      extensionsTitle: 'Ramais úteis',
+      extensionsLead: 'Conecte-se rapidamente com os principais setores do Royal Palm Resort.',
+      extensionsList: 'Ramais do Royal Palm Resort',
+      channelsTitle: 'Relação de canais',
+      channelsLead:
+        'Os apartamentos contam com canais abertos e por assinatura. Confira abaixo a grade disponível nas TVs.',
+      channelsPlaceholder: 'Buscar canal por número ou nome',
+      channelNumber: 'Nº',
+      channelName: 'Canal',
+      channelHint: 'Outras opções de canais podem estar disponíveis na sala de TV coletiva.',
+      guestLead:
+        'Equipe pronta para atender solicitações especiais, passeios, informações e serviços personalizados durante toda a estadia.',
+      guestParagraph:
+        'O Guest Service está disponível a qualquer momento para apoiar suas necessidades. Ao necessitar de itens como toalhas adicionais, adaptadores, amenities especiais ou suporte com passeios e transporte, ligue para o ramal <strong>620</strong>.',
+      guestItem1: 'Pedidos de room service e frigobar.',
+      guestItem2: 'Toalhas, roupas de cama e amenities extras.',
+      guestItem3: 'Adaptação do berço ou cama extra (mediante disponibilidade).',
+      guestItem4: 'Orientação sobre passeios, transporte, eventos e atrações na região.',
+      guestItem5: 'Informações sobre horários de serviços, piscinas, clube e atividades.',
+      footerTitlePt: 'Experiências impecáveis',
+      footerTextPt: 'Serviço de quarto 24h e equipe dedicada para tornar sua estadia mais confortável.',
+      footerTitleEn: 'Memorable stays',
+      footerTextEn: '24/7 room service and a dedicated team to make your stay more comfortable.',
+      floatingButton: 'Finalizar pedido'
+    },
+    en: {
+      menuOpen: 'Open menu',
+      quickMenu: 'Quick menu',
+      menuRestaurant: 'Restaurant',
+      menuMaintenance: 'Maintenance',
+      menuGuestService: 'Guest Service',
+      menuExtensions: 'Extensions',
+      menuChannels: 'Channels',
+      heroTitle: 'Refined room service in a few taps.',
+      heroLead:
+        'Your digital Royal concierge, ready to delight you with personal attention, instant communication and unforgettable experiences.',
+      startOrder: 'Start order',
+      quickRestaurant: 'Restaurant',
+      quickMaintenance: 'Maintenance',
+      quickGuestService: 'Guest Service',
+      quickExtensions: 'Extensions',
+      quickChannels: 'Channels',
+      orderTitle: 'Order with ease',
+      orderLead:
+        'Select dishes and drinks, share preferences and finish the request with one click.',
+      roomNumber: 'Room number',
+      roomPlaceholder: 'E.g., 201',
+      deliveryTime: 'Preferred delivery time (optional)',
+      firstName: 'First name',
+      firstNamePlaceholder: 'Mary',
+      lastName: 'Last name',
+      lastNamePlaceholder: 'Smith',
+      searchItems: 'Search items',
+      searchPlaceholder: 'E.g., omelet, juice, salad…',
+      restaurantNotes: 'Restaurant notes',
+      restaurantNotesPlaceholder: 'E.g., No sugar; no onions; 2 extra cutlery.',
+      estimatedTotal: 'Estimated total',
+      whatsAppHint: 'Link opened in WhatsApp.',
+      maintenanceTitle: 'Immediate maintenance',
+      maintenanceLead: 'Tell us the issue found in the apartment for quick service.',
+      maintenanceRoom: 'Room number',
+      maintenanceRoomPlaceholder: 'E.g., 201',
+      maintenanceName: 'First name (optional)',
+      maintenanceNamePlaceholder: 'Mary',
+      issueLegend: 'Select the issue',
+      issueBulb: 'Burned-out bulb',
+      issueToilet: 'Clogged toilet',
+      issueFlush: 'Flush malfunction',
+      issueTv: 'TV not working',
+      issueShower: 'Shower issue',
+      issuePhone: 'Phone not working',
+      issueLeak: 'Leak',
+      maintenanceNotes: 'Notes for the team',
+      maintenanceNotesPlaceholder: 'Detail the problem location, access or best times.',
+      extensionsTitle: 'Useful extensions',
+      extensionsLead: 'Connect quickly with the main departments of Royal Palm Resort.',
+      extensionsList: 'Royal Palm Resort extensions',
+      channelsTitle: 'Channel list',
+      channelsLead:
+        'Apartments include open and subscription channels. Check the available lineup below.',
+      channelsPlaceholder: 'Search by channel number or name',
+      channelNumber: 'No.',
+      channelName: 'Channel',
+      channelHint: 'Other channel options may be available in the shared TV room.',
+      guestLead:
+        'A team ready to handle special requests, tours, information and personalized services throughout your stay.',
+      guestParagraph:
+        'Guest Service is available anytime to support your needs. When you need items such as extra towels, adapters, special amenities or assistance with tours and transportation, call extension <strong>620</strong>.',
+      guestItem1: 'Room service and minibar requests.',
+      guestItem2: 'Extra towels, bed linens and amenities.',
+      guestItem3: 'Crib or extra bed setup (subject to availability).',
+      guestItem4: 'Guidance on tours, transportation, events and attractions in the area.',
+      guestItem5: 'Information about service hours, pools, club and activities.',
+      footerTitlePt: 'Impeccable experiences',
+      footerTextPt: '24/7 room service and a dedicated team to make your stay more comfortable.',
+      footerTitleEn: 'Memorable stays',
+      footerTextEn: '24/7 room service and a dedicated team to make your stay more comfortable.',
+      floatingButton: 'Finish order'
+    }
+  };
+
   const state = {
     carrinho: new Map(), // index -> quantidade
     activeForm: null // 'restaurant' | 'maintenance'
@@ -32,6 +186,62 @@
 
   const currency = (v) =>
     v.toLocaleString('pt-BR', { style: 'currency', currency: 'BRL' });
+
+  function applyTranslations() {
+    const dict = translations[currentLang];
+    if (!dict) return;
+    document.documentElement.lang = currentLang === 'en' ? 'en' : 'pt-br';
+
+    document.querySelectorAll('[data-i18n]').forEach((el) => {
+      const key = el.dataset.i18n;
+      const value = dict[key];
+      if (!value) return;
+
+      const labelText = el.querySelector('.label-text');
+      if (labelText) {
+        labelText.textContent = value;
+        return;
+      }
+
+      el.innerHTML = value;
+    });
+
+    document.querySelectorAll('[data-i18n-placeholder]').forEach((el) => {
+      const key = el.dataset.i18nPlaceholder;
+      const value = dict[key];
+      if (value) el.setAttribute('placeholder', value);
+    });
+
+    document.querySelectorAll('[data-i18n-value]').forEach((el) => {
+      const key = el.dataset.i18nValue;
+      const value = dict[key];
+      if (value) el.value = value;
+    });
+
+    languageButtons.forEach((btn) => {
+      const isActive = btn.dataset.lang === currentLang;
+      btn.classList.toggle('is-active', isActive);
+      btn.setAttribute('aria-pressed', String(isActive));
+    });
+  }
+
+  function setLanguage(lang) {
+    if (lang !== 'pt' && lang !== 'en') return;
+    currentLang = lang;
+    applyTranslations();
+    renderMenu(buscaEl?.value || '');
+  }
+
+  if (languageButtons.length) {
+    languageButtons.forEach((btn) => {
+      btn.addEventListener('click', () => {
+        const lang = btn.dataset.lang;
+        if (lang) setLanguage(lang);
+      });
+    });
+  }
+
+  applyTranslations();
 
   // -------------------- MENU DE ITENS --------------------
 
@@ -530,6 +740,7 @@
   function renderMenu(filtro = '') {
     if (!menuEl) return;
     const term = filtro.trim().toLowerCase();
+    const isEnglish = currentLang === 'en';
 
     menuEl.innerHTML = '';
 
@@ -550,7 +761,11 @@
         row.dataset.index = String(item.index);
 
         const colNome = document.createElement('div');
-        colNome.innerHTML = `<strong>${item.nome}</strong><br><small>${item.eng}</small>`;
+        const nomePrincipal = isEnglish ? item.eng : item.nome;
+        const nomeSecundario = isEnglish ? item.nome : item.eng;
+        colNome.innerHTML = nomeSecundario
+          ? `<strong>${nomePrincipal}</strong><br><small>${nomeSecundario}</small>`
+          : `<strong>${nomePrincipal}</strong>`;
 
         const colPreco = document.createElement('div');
         colPreco.className = 'price';
@@ -580,16 +795,13 @@
 
         const desc = document.createElement('div');
         desc.className = 'desc';
-        if (item.descPt || item.descEn) {
-          const p1 = document.createElement('p');
-          p1.textContent = item.descPt;
-          const p2 = document.createElement('p');
-          p2.textContent = item.descEn;
-          desc.append(p1, p2);
-        } else {
-          desc.innerHTML =
-            '<p>Veja detalhes com o atendimento.</p><p>See details with the staff.</p>';
-        }
+        const fallback = isEnglish
+          ? 'See details with the staff.'
+          : 'Veja detalhes com o atendimento.';
+        const descricao = isEnglish ? item.descEn : item.descPt;
+        const paragrafo = document.createElement('p');
+        paragrafo.textContent = descricao || fallback;
+        desc.append(paragrafo);
         desc.style.display = 'none';
         wrapper.appendChild(desc);
 
