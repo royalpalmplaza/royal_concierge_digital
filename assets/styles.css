@@ -43,6 +43,42 @@ body{
   position:relative;
 }
 
+.language-switcher{
+  position:absolute;
+  top:18px;
+  right:18px;
+  display:flex;
+  flex-wrap:wrap;
+  gap:10px;
+  padding:8px 10px;
+  background:rgba(255,255,255,.9);
+  border-radius:999px;
+  box-shadow:0 8px 18px rgba(0,0,0,.12);
+  z-index:95;
+}
+
+.language-option{
+  border:none;
+  background:transparent;
+  cursor:pointer;
+  font-size:18px;
+  line-height:1;
+  padding:6px 10px;
+  border-radius:999px;
+  transition:transform .15s ease, box-shadow .15s ease, background .15s ease;
+}
+
+.language-option.is-active{
+  background:var(--cor-principal);
+  color:#fff;
+  box-shadow:0 10px 20px rgba(4,100,36,.24);
+}
+
+.language-option:focus-visible{
+  outline:2px solid var(--cor-principal);
+  outline-offset:2px;
+}
+
 /* Acessibilidade */
 .sr-only{
   position:absolute;
